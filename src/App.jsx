@@ -17,14 +17,15 @@ class App extends React.Component {
   }
 
   addRandomContact = () => {
+    const { contacts } = this.state;
     const randomIndex = () => {
       return Math.floor(Math.random() * allContactsArray.length);
     };
     const newContact = allContactsArray[randomIndex()];
-    contactsArray = [...contactsArray, newContact];
+    const addedArray = [...contacts, newContact];
     this.setState(() => {
       return {
-        contacts: contactsArray
+        contacts: addedArray
       };
     });
   };
@@ -48,6 +49,13 @@ class App extends React.Component {
     });
   };
 
+  deleteContact = (id) => {
+    const { contacts } = this.state;
+    const deletedArray = contacts.filter((contact) => contact.id !== id);
+    this.setState({
+      contacts: deletedArray
+    });
+  };
   render() {
     return (
       <div className="App">
@@ -75,6 +83,11 @@ class App extends React.Component {
                   </td>
                   <td>{contact.name}</td>
                   <td>{contact.popularity.toFixed(2)}</td>
+                  <td>
+                    <button onClick={() => this.deleteContact(contact.id)}>
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               );
             })}
