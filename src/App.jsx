@@ -18,14 +18,33 @@ class App extends React.Component {
 
   addRandomContact = () => {
     const randomIndex = () => {
-      return Math.floor(Math.random() * (allContactsArray.length - 1 + 1));
+      return Math.floor(Math.random() * allContactsArray.length);
     };
     const newContact = allContactsArray[randomIndex()];
     contactsArray = [...contactsArray, newContact];
-    this.setState((currentState) => {
+    this.setState(() => {
       return {
         contacts: contactsArray
       };
+    });
+  };
+
+  sortByName = () => {
+    const { contacts } = this.state;
+    const sorted = contacts.sort((a, b) => a.name.localeCompare(b.name));
+    this.setState({
+      contacts: sorted
+    });
+  };
+
+  sortByPopularity = () => {
+    const { contacts } = this.state;
+    console.log('popularity');
+    const sorted = contacts.sort((a, b) => {
+      return a.popularity - b.popularity;
+    });
+    this.setState({
+      contacts: sorted
     });
   };
 
@@ -35,6 +54,8 @@ class App extends React.Component {
         <h1>IronContacts</h1>
 
         <button onClick={this.addRandomContact}>Add random contact</button>
+        <button onClick={this.sortByName}>Sort by name</button>
+        <button onClick={this.sortByPopularity}>Sort by popularity</button>
         <table>
           <thead>
             <tr>
